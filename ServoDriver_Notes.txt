@@ -1,0 +1,7 @@
+Servos are given a control pulse 40-50 times per second (called the RepeatIntervaluS, a period of 2000-2500 uS). Each pulse varies from 1.5 mS to 2.5 mS, with 1.5 mS representing the most CCW position and 2.5 mS representing the most CW position of the servo. This implies that the servo is nominally "centered" with a pulse of 2 mS.
+
+Servos do not always have the same number of degrees of total rotation - some are 180, some are 120 nominal, and all have some variation in individual units. In the code, this is represented by RotationRangeDegrees (a uint8_t), and the current position, DegreesFromCenter (an int8_t). Macros make the limits for an individual servo easily available:
+  MAX_CW_DEVIATION  == (int8_t)(RotationRangeDegrees >> 1), and 
+  MAX_CCW_DEVIATION == (int8_t)(0 - (RotationRangeDegrees >> 1))
+
+Applications specify the position of the servo, in degrees from centered, with GoToOffset(int8_t OffsetDegrees). The parameter is validated against the range specified in the Servo constructor, and throws when outside that range.
